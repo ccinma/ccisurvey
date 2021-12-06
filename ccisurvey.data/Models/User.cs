@@ -28,7 +28,7 @@ namespace ccisurvey.data.Models
         [Required]
         public string Password { get; set; }
 
-
+        [Required]
         public DateTime CreatedAt { get; set; }
     }
 }

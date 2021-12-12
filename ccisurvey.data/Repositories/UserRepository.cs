@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ccisurvey.data.Repositories
 {
-    internal class UserRepository
+    public class UserRepository
     {
 		public Task<User> GetAsync(int id)
 		{

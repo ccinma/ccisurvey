@@ -27,6 +27,7 @@ namespace ccisurvey.data.Models
 
         [Required]
         [StringLength( 20, MinimumLength = 8)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]

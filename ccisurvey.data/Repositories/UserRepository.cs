@@ -1,4 +1,5 @@
 ﻿using ccisurvey.data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,21 +8,25 @@ using System.Threading.Tasks;
 
 namespace ccisurvey.data.Repositories
 {
-    public class UserRepository
+	public class UserRepository
     {
-		public Task<User> GetAsync(int id)
+		public async Task<User> GetAsync(int id)
 		{
-			throw new NotImplementedException();
+			return await context.Set<int>().FindAsync(id);
 		}
 
-		public Task AddAsync(User user)
+		public async Task<User> AddAsync(User user)
 		{
-			throw new NotImplementedException();
+			context.Set<User>().Add(user);
+			await context.SaveChangesAsync();
+			return user;
 		}
 
-		public Task UpdateAsync(User user)
+		public async Task<User> UpdateAsync(User user)
 		{
-			throw new NotImplementedException();
+			context.Entry(user).State = EntityState.Modified;
+			await context.SaveChangesAsync();
+			return user;
 		}
 	}
 }

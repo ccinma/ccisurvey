@@ -29,7 +29,7 @@ namespace ccisurvey
 
 			services.AddDbContext<AppDBContext>(options =>
 			{
-				options.UseSqlServer(Configuration.GetConnectionString("AppDDContext"));
+				options.UseSqlServer(Configuration.GetConnectionString("AppDBContext"));
 			});
 
 		}

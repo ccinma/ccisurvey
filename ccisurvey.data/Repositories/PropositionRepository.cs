@@ -9,24 +9,27 @@ namespace ccisurvey.data.Repositories
 {
 	internal class PropositionRepository : IPropositionRepository
 	{
-		public Task AddAsync(Proposition proposition)
+		private readonly AppDBContext _db;
+		public PropositionRepository(AppDBContext db)
 		{
-			throw new NotImplementedException();
+			_db = db;
 		}
 
-		public Task<List<Proposition>> GetAllAsync()
+
+		public async Task AddAsync(Proposition proposition)
 		{
-			throw new NotImplementedException();
+			await _db.AddAsync(proposition);
 		}
 
-		public Task<Proposition> GetAsync(int id)
+		public async Task<Proposition> GetAsync(int id)
 		{
-			throw new NotImplementedException();
+			return await _db.Proposition.FindAsync(id);
 		}
 
-		public Task UpdateAsync(Proposition proposition)
+		public async Task UpdateAsync(Proposition proposition)
 		{
-			throw new NotImplementedException();
+			_db.Proposition.Update(proposition);
+			await _db.SaveChangesAsync();
 		}
 	}
 }

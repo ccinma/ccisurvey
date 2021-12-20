@@ -11,7 +11,7 @@ namespace ccisurvey.data
 		public DbSet<Proposition> Proposition { get; set; }
 
 
-		public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
+		public AppDBContext(DbContextOptions options) : base(options)
 		{
 
 		}

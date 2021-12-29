@@ -20,6 +20,8 @@ namespace ccisurvey.data.Models
 		[StringLength(75, ErrorMessage = "Le libellé doit faire entre {2} et {1} charactères.", MinimumLength = 1)]
 		public string Label { get; set; }
 		[Required]
+		public Survey Survey { get; set; }
+		[Required]
 		public List<User> Participants { get; set; }
 	}
 }

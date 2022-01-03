@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace ccisurvey.data.Repositories
 {
-    internal interface IUserRepository
+    public interface IUserRepository
     {
         Task<User> GetAsync(int id);
-        Task AddAsync(User user);
-        Task UpdateAsync(User user);
+        Task<User> GetByEmailAsync(string email);
+        Task<bool> AddAsync(User user);
+        Task<bool> UpdateAsync(User user);
     }
 }

@@ -1,4 +1,6 @@
 using ccisurvey.data;
+using ccisurvey.data.Repositories;
+using ccisurvey.services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,18 +27,41 @@ namespace ccisurvey
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllersWithViews();
-
 			services.AddDbContext<AppDBContext>(options =>
 			{
 				options.UseSqlServer(Configuration.GetConnectionString("AppDBContext"));
 			});
 
+			services.AddHttpContextAccessor();
+
+			services.AddAuthentication("Cookie")
+				.AddCookie("Cookie", config =>
+				{
+					config.LoginPath = "/auth/login";
+					config.LogoutPath = "/auth/logout";
+					config.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+					config.SlidingExpiration = true;
+					config.Cookie.IsEssential = true;
+				});
+
+			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IPropositionRepository, PropositionRepository>();
+			services.AddScoped<ISurveyRepository, SurveyRepository>();
+			services.AddScoped<IAuthService, AuthService>();
+			services.AddScoped<IPasswordService, PasswordService>();
+
+			services.AddControllersWithViews().AddRazorRuntimeCompilation();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+			{
+				var context = serviceScope.ServiceProvider.GetRequiredService<AppDBContext>();
+				context.Database.Migrate();
+			}
+
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
@@ -52,6 +77,7 @@ namespace ccisurvey
 
 			app.UseRouting();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>

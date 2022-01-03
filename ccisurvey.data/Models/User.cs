@@ -26,7 +26,7 @@ namespace ccisurvey.data.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength( 20, MinimumLength = 8)]
+        [StringLength(255, MinimumLength = 8)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

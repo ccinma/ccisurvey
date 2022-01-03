@@ -31,7 +31,7 @@ namespace ccisurvey.data.Migrations
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
 
-                    b.Property<int?>("SurveyId")
+                    b.Property<int>("SurveyId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -106,7 +106,8 @@ namespace ccisurvey.data.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int?>("PropositionId")
                         .HasColumnType("int");
@@ -125,9 +126,13 @@ namespace ccisurvey.data.Migrations
 
             modelBuilder.Entity("ccisurvey.data.Models.Proposition", b =>
                 {
-                    b.HasOne("ccisurvey.data.Models.Survey", null)
+                    b.HasOne("ccisurvey.data.Models.Survey", "Survey")
                         .WithMany("Propositions")
-                        .HasForeignKey("SurveyId");
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
                 });
 
             modelBuilder.Entity("ccisurvey.data.Models.Survey", b =>

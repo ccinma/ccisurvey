@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ccisurvey.data.Repositories
 {
-	internal class PropositionRepository : IPropositionRepository
+	public class PropositionRepository : IPropositionRepository
 	{
 		private readonly AppDBContext _db;
 		public PropositionRepository(AppDBContext db)

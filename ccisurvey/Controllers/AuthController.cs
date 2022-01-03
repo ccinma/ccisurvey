@@ -34,7 +34,7 @@ namespace ccisurvey.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var emailExists = await _auth.CheckEmailExists(user);
+				var emailExists = await _auth.CheckEmailExists(model.Email);
 
 				if (!emailExists)
 				{
@@ -51,6 +51,27 @@ namespace ccisurvey.Controllers
 			}
 
 			ViewData["Errors"] = errors;
+			return View();
+		}
+
+		[HttpGet]
+		public IActionResult Login()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Login(LoginViewModel model)
+		{
+			if (ModelState.IsValid)
+            {
+				var result = await _auth.Login(model);
+
+				if (result == true)
+                {
+					return Redirect("/home");
+                }
+            }
 			return View();
 		}
 	}

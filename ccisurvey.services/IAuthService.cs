@@ -11,6 +11,7 @@ namespace ccisurvey.services
 	public interface IAuthService
 	{
 		Task<bool> Register(User user);
-		Task<bool> CheckEmailExists(User user);
+		Task<bool> CheckEmailExists(string email);
+		Task<bool> Login(LoginViewModel model);
 	}
 }

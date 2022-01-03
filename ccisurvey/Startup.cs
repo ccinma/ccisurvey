@@ -39,7 +39,7 @@ namespace ccisurvey
 				{
 					config.LoginPath = "/auth/login";
 					config.LogoutPath = "/auth/logout";
-					config.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+					config.ExpireTimeSpan = TimeSpan.FromMinutes(60);
 					config.SlidingExpiration = true;
 					config.Cookie.IsEssential = true;
 				});

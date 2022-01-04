@@ -55,7 +55,7 @@ namespace ccisurvey.services
 					};
 					var identity = new ClaimsIdentity(claims);
 					var principal = new ClaimsPrincipal(identity);
-					await _httpContext.Authentication.SignInAsync("Cookie", principal);
+					await AuthenticationHttpContextExtensions.SignInAsync(_httpContext, principal);
 
 					return true;
                 }

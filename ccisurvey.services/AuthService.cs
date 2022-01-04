@@ -1,6 +1,7 @@
 ﻿using ccisurvey.data.Models;
 using ccisurvey.data.Repositories;
 using ccisurvey.services.VMs;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -53,7 +54,7 @@ namespace ccisurvey.services
 						new Claim("Name", user.Name),
 						new Claim("Email", user.Email),
 					};
-					var identity = new ClaimsIdentity(claims);
+					var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
 					var principal = new ClaimsPrincipal(identity);
 					await AuthenticationHttpContextExtensions.SignInAsync(_httpContext, principal);
 

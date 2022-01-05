@@ -2,7 +2,94 @@
     ViewData["Title"] = "Home Page";
 }
 
+<!--
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+-->
+
+<div class="home">
+    <img class="logo" src="Image/logo.png" alt="logo" />
+    <div class="top-btn">
+        <div class="plus">
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" class="svg-inline--fa fa-plus fa-w-14" role="img" viewBox="0 0 448 512"><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/></svg>
+        </div>
+        <div class="person-fill">
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" class="svg-inline--fa fa-user fa-w-14" role="img" viewBox="0 0 448 512"><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"/></svg>
+        </div>
+    </div>
+    <div class="explication">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Est ultricies integer quis auctor elit sed vulputate mi. Quis blandit turpis cursus in. Nec ullamcorper sit amet risus nullam. Purus ut faucibus pulvinar elementum integer enim neque. Sagittis eu volutpat odio facilisis mauris sit amet massa vitae. Rutrum tellus pellentesque eu tincidunt tortor aliquam. Lacinia quis vel eros donec. Dui ut ornare lectus sit amet est placerat. Pellentesque dignissim enim sit amet. Amet nulla facilisi morbi tempus iaculis urna id. Integer feugiat scelerisque varius morbi enim nunc faucibus a pellentesque. Pulvinar etiam non quam lacus. Eget egestas purus viverra accumsan in nisl nisi scelerisque eu. Viverra justo nec ultrices dui. Vulputate enim nulla aliquet porttitor. Morbi tristique senectus et netus et malesuada fames. Netus et malesuada fames ac turpis egestas sed tempus urna. Libero volutpat sed cras ornare arcu dui vivamus. Lectus arcu bibendum at varius. Egestas sed sed risus pretium. Feugiat scelerisque varius morbi enim nunc faucibus. Diam quis enim lobortis scelerisque fermentum. Tortor at auctor urna nunc id cursus metus aliquam. Ornare quam viverra orci sagittis eu. Integer malesuada nunc vel risus commodo viverra maecenas accumsan. Condimentum id venenatis a condimentum. Quis varius quam quisque id diam. Suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Id porta nibh venenatis cras sed felis eget velit aliquet. Ultrices gravida dictum fusce ut. Orci phasellus egestas tellus rutrum. Penatibus et magnis dis parturient montes nascetur ridiculus mus mauris.</p>
+    </div>
+</div>
+
+<style scoped>    
+    .home {
+        /*
+        width: 100vw;
+        height: 100vh;
+        */
+
+        background: #FDF1D8;
+    }
+    .home, .home *{
+        margin: 0;
+        padding: 0;
+        color: #FFFFFF;
+        color: #FDF1D8;
+        color: #E86A92;
+        color: #2B2D42;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .logo {
+        width: 300px;
+        margin: 50px;
+    }
+
+    .top-btn {
+        margin: 50px;
+
+        flex-direction: row;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+    }
+
+    .plus, .person-fill {
+        width: 60px;
+        height: 60px;
+        margin-left: 10px;
+        padding:10px;
+
+        border-radius: 666px;
+
+        color: #FFFFFF;
+        background: #E86A92;
+    }
+
+    .plus *, .person-fill * {
+        color: #FFFFFF;
+    }
+
+    .explication {
+        margin: 50px;
+        position: absolute;
+        bottom: 0px;
+        border-radius: 20px;
+        background: #2B2D42;
+    }
+
+    .explication p {
+        margin: 20px;
+        color: #FFFFFF;
+        font-weight: 800;
+        font-style: italic;
+        font-size: 12pt;
+    }
+</style>

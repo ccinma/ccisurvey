@@ -4,33 +4,6 @@
     ViewData["Title"] = "Login";
 }
 
-<!--
-<h1>Login</h1>
-
-<h4>User</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Login">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Se connecter" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
--->
-
 <div class="login">
     <div class="top">
         <img class="logo" src="~/Image/logo.png" alt="logo" />
@@ -47,6 +20,9 @@
     </div>
 
     <div class="form-container">
+
+        <h1>Connection</h1>
+
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -132,7 +108,7 @@
     .form-container {
         height: 100%;
         margin-inline: 50px;
-        padding-top: 20px;
+        padding: 20px;
         border-radius: 20px;
         background: #2B2D42;
     }
@@ -143,13 +119,14 @@
         font-size: 16pt;
     }
 
-    .form-group {
-        margin-inline: 20px; 
-        margin-bottom: 20px
+    .form-container h1 {
+        margin-bottom: 20px;
+        font-size: 24pt;
+        align-self: center;
     }
 
-    input {
-        -webkit-appearance: none;
+    .form-group {
+        margin-bottom: 20px
     }
 
     .form-group input {

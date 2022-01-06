@@ -1,14 +1,18 @@
 ﻿using ccisurvey.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ccisurvey.Controllers
 {
+	[Authorize]
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
@@ -17,12 +21,13 @@ namespace ccisurvey.Controllers
 		{
 			_logger = logger;
 		}
-
+		[AllowAnonymous]
 		public IActionResult Index()
 		{
 			return View();
 		}
 
+		[AllowAnonymous]
 		public IActionResult Privacy()
 		{
 			return View();

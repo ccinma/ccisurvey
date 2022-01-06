@@ -10,8 +10,8 @@ namespace ccisurvey.data.Repositories
 	public interface ISurveyRepository
 	{
 		Task<List<Survey>> GetAllAsync();
-		Task<Survey> GetAsync(int id);
-		Task AddAsync(Survey survey);
+		Task<Survey> GetAsync(int id, bool withProps = true);
+		Task<int> AddAsync(Survey survey);
 		Task DeleteAsync(int id);
 		Task UpdateAsync(Survey survey);
 	}

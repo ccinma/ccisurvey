@@ -1,0 +1,17 @@
+﻿@using ccisurvey.data.Models
+
+@{
+    var created = (List<Survey>)ViewData["Created"];
+    var particpating = (List<Survey>)ViewData["Participating"];
+}
+
+<div>
+    <h3>Mes sondages</h3>
+    @foreach (var survey in created)
+    {
+        <p>
+            @survey.Label
+        </p>
+    }
+
+</div>

@@ -40,20 +40,20 @@ namespace ccisurvey.data.Repositories
 				.ToListAsync();
 		}
 
-		public async Task<Survey> GetAsync(int id, bool withProps = true)
+		public async Task<Survey> GetAsync(int id)
 		{
-			if (withProps)
-            {
-				return await _db.Survey
-					.Include(s => s.User)
-					.Include(s => s.Propositions)
-					.FirstOrDefaultAsync(s => s.Id == id);
-			} else
-            {
-				return await _db.Survey
-					.Include(s => s.User)
-					.FirstOrDefaultAsync(s => s.Id == id);
-            }
+			return await _db.Survey
+				.Include(s => s.User)
+				.Include(s => s.Propositions)
+				.ThenInclude(p => p.Participants)
+				.FirstOrDefaultAsync(s => s.Id == id);
+		}
+
+		public async Task<List<Survey>> GetAllByUserAsync(User user)
+		{
+			return await _db.Survey
+				.Where(s => s.User == user || s.Participants.Contains(user))
+				.ToListAsync();
 		}
 
 		public async Task UpdateAsync(Survey survey)

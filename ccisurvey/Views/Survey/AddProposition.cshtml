@@ -1,0 +1,88 @@
+﻿@using ccisurvey.data.Models
+@model ccisurvey.data.Models.Proposition
+
+@{
+    ViewData["Title"] = "AddPropositions";
+    var survey = (Survey)ViewData["Survey"];
+    var id = survey.Id;
+}
+
+<h1 class="d-inline">@survey.Label</h1>
+<span>
+    @if (!survey.IsClosed)
+    {
+        @:Ouvert
+    } else
+    {
+        @:Fermé
+    }
+</span>
+
+<div>
+    <h4>Par : @survey.User.Name</h4>
+    <p class="m-0">
+        <span>Créé le @survey.CreatedAt.Day/@survey.CreatedAt.Month/@survey.CreatedAt.Year</span>
+    </p>
+    <p class="m-0">
+        @if (survey.IsMultipleChoice)
+        {
+            @:Choix multiple autorisé
+        } else
+        {
+            @:Choix unique
+        }
+    </p>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-12">
+            @if (survey.Propositions.Count == 0)
+            {
+                <p class="fs-3">Aucune proposition ajoutée pour le moment...</p>
+            } else
+            {
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Propositions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var proposition in survey.Propositions)
+                        {
+                            <tr>
+                                <td>
+                                    @proposition.Label
+                                </td>
+                                <td>
+                                    <a href="/">Editer</a> |
+                                    <a href="/">Supprimer</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+        <div class="col-md-4">
+            <form asp-action="AddProposition" asp-route-id="@survey.Id">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Label" class="control-label"></label>
+                    <input asp-for="Label" class="form-control" />
+                    <span asp-validation-for="Label" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Ajouter une proposition" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="View" asp-route-id="@survey.Id" >Retour</a>
+</div>
+

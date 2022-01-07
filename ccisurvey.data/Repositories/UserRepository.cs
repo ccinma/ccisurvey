@@ -19,7 +19,7 @@ namespace ccisurvey.data.Repositories
 
 		public async Task<User> GetAsync(int id)
 		{
-			return await _db.User.FindAsync(id);
+			return await _db.User.FirstOrDefaultAsync(u => u.Id == id);
 		}
 
 		public async Task<User> GetByEmailAsync(string email)

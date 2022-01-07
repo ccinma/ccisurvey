@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Http
+@using ccisurvey.data.Models
+@model ccisurvey.services.VMs.ChoiceRadioViewModel
+
+@{
+    ViewData["Title"] = "View";
+    var survey = (Survey)ViewData["Survey"];
+    var user = (User)ViewData["User"];
+    var check = false;
+    var test = "";
+}
+
+<h1 class="d-inline">@survey.Label</h1>
+<span>
+    @if (!survey.IsClosed)
+    {
+        @:Ouvert
+    } else
+    {
+        @:Fermé
+    }
+</span>
+
+<div>
+    <h4>Par : @survey.User.Name</h4>
+    <p class="m-0">
+        <span>Créé le @survey.CreatedAt.Day/@survey.CreatedAt.Month/@survey.CreatedAt.Year</span>
+    </p>
+    <p class="m-0">
+        @if (survey.IsMultipleChoice)
+        {
+            @:Choix multiple autorisé
+        } else
+        {
+            @:Choix unique
+        }
+    </p>
+
+    <hr />
+
+    @if (survey.Propositions.Count == 0)
+    {
+        <p class="fs-3">Aucune proposition ajoutée pour le moment...</p>
+    } else
+    {
+        
+
+    }
+    <div class="col-12">
+        <form asp-action="Vote" asp-route-id="@survey.Id">
+
+            @foreach (var choice in survey.Propositions)
+            {
+                if (choice.Participants.Contains(user))
+                {
+                    check = true;
+                } else
+                {
+                    check = false;
+                }
+
+                <div class="form-group">
+                    @if (survey.IsMultipleChoice)
+                    {
+                        <input type="checkbox" value="@choice.Id" name="@choice.Id" checked="@check" />
+                    } else
+                    {
+                        <input type="radio" id="@choice.Id" value="@choice.Id" name="RadioField" checked="@check" />
+                    }
+                    <label for="@choice.Id">@choice.Label | @choice.Participants.Count votants</label>
+                </div>
+            }
+
+            @if (!survey.IsMultipleChoice)
+            {
+                <div class="form-group">
+                    <input id="no-choice-option" type="radio" value="no-choice" name="RadioField" />
+                    <label for="no-choice-option">Retirer le vote</label>
+                </div>
+
+            }
+            
+
+
+            <div class="form-group">
+                <input type="submit" value="Valider le vote" class="btn btn-primary" />
+            </div>
+            @if (user.Id == survey.User.Id)
+            {
+                <p class="text-center">
+                    <a asp-action="AddProposition" asp-route-id="@survey.Id">Ajouter / Modifier une proposition</a>
+                </p>
+            }
+        </form>
+    </div>
+
+    <hr />
+
+    @if (user.Id == survey.User.Id)
+    {
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-danger">Supprimer le sondage</button>
+        </div>
+    }
+</div>

@@ -1,4 +1,5 @@
 ﻿using ccisurvey.data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,17 @@ namespace ccisurvey.data.Repositories
 
 		public async Task AddAsync(Proposition proposition)
 		{
-			await _db.AddAsync(proposition);
+			await _db.Proposition.AddAsync(proposition);
+			var survey = await _db.Survey.FindAsync(proposition.Survey.Id);
+			survey.Propositions.Add(proposition);
+			_db.Survey.Update(survey);
+			await _db.SaveChangesAsync();
+			return;
+		}
+
+		public async Task<List<Proposition>> GetAllFromSurvey(int id)
+		{
+			return await _db.Proposition.Include(p => p.Participants).Where(p => p.Survey.Id == id).ToListAsync();
 		}
 
 		public async Task<Proposition> GetAsync(int id)

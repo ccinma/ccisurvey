@@ -1,6 +1,7 @@
 ﻿using ccisurvey.data.Models;
 using ccisurvey.services;
 using ccisurvey.services.VMs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace ccisurvey.Controllers
 				if (!emailExists)
 				{
 					await _auth.Register(user);
-					return (string.IsNullOrEmpty(returnUrl) ? Redirect("/home") : Redirect(returnUrl));
+					return (string.IsNullOrEmpty(returnUrl) ? Redirect("/auth/login") : Redirect(returnUrl));
 				} else
 				{
 					errors.Add("Email déjà existante.");
@@ -73,6 +74,16 @@ namespace ccisurvey.Controllers
                 }
             }
 			return View();
+		}
+
+		[Authorize]
+		public async Task<IActionResult> Logout()
+		{
+			if (HttpContext.User != null)
+			{
+				await _auth.Logout();
+			}
+			return Redirect("/auth/login");
 		}
 	}
 }

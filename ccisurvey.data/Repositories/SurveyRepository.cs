@@ -16,10 +16,13 @@ namespace ccisurvey.data.Repositories
 			_db = db;
 		}
 
-		public async Task AddAsync(Survey survey)
+		public async Task<int> AddAsync(Survey survey)
 		{
 			await _db.Survey.AddAsync(survey);
-			return;
+			await _db.SaveChangesAsync();
+			
+			int lastId = _db.Survey.Max(survey => survey.Id);
+			return lastId;
 		}
 
 		public async Task DeleteAsync(int id)
@@ -37,9 +40,20 @@ namespace ccisurvey.data.Repositories
 				.ToListAsync();
 		}
 
-		public async Task<Survey> GetAsync(int id)
+		public async Task<Survey> GetAsync(int id, bool withProps = true)
 		{
-			return await _db.Survey.FindAsync(id);
+			if (withProps)
+            {
+				return await _db.Survey
+					.Include(s => s.User)
+					.Include(s => s.Propositions)
+					.FirstOrDefaultAsync(s => s.Id == id);
+			} else
+            {
+				return await _db.Survey
+					.Include(s => s.User)
+					.FirstOrDefaultAsync(s => s.Id == id);
+            }
 		}
 
 		public async Task UpdateAsync(Survey survey)

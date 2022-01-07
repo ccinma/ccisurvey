@@ -51,6 +51,9 @@ namespace ccisurvey.services
                 {
 					var claims = new List<Claim>()
 					{
+						// --- The id has to always be first !! ---
+						new Claim("Id", user.Id.ToString()),
+						// ----------------------------------------
 						new Claim("Name", user.Name),
 						new Claim("Email", user.Email),
 					};

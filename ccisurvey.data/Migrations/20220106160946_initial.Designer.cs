@@ -10,8 +10,8 @@ using ccisurvey.data;
 namespace ccisurvey.data.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220103144857_Initial")]
-    partial class Initial
+    [Migration("20220106160946_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,21 @@ namespace ccisurvey.data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("PropositionUser", b =>
+                {
+                    b.Property<int>("ParticipantsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PropositionsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ParticipantsId", "PropositionsId");
+
+                    b.HasIndex("PropositionsId");
+
+                    b.ToTable("PropositionUser");
+                });
 
             modelBuilder.Entity("ccisurvey.data.Models.Proposition", b =>
                 {
@@ -53,9 +68,6 @@ namespace ccisurvey.data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -80,9 +92,12 @@ namespace ccisurvey.data.Migrations
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Survey");
                 });
@@ -111,19 +126,29 @@ namespace ccisurvey.data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("PropositionId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("SurveyId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PropositionId");
-
                     b.HasIndex("SurveyId");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("PropositionUser", b =>
+                {
+                    b.HasOne("ccisurvey.data.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("ParticipantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ccisurvey.data.Models.Proposition", null)
+                        .WithMany()
+                        .HasForeignKey("PropositionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ccisurvey.data.Models.Proposition", b =>
@@ -131,7 +156,7 @@ namespace ccisurvey.data.Migrations
                     b.HasOne("ccisurvey.data.Models.Survey", "Survey")
                         .WithMany("Propositions")
                         .HasForeignKey("SurveyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Survey");
@@ -139,27 +164,20 @@ namespace ccisurvey.data.Migrations
 
             modelBuilder.Entity("ccisurvey.data.Models.Survey", b =>
                 {
-                    b.HasOne("ccisurvey.data.Models.User", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
+                    b.HasOne("ccisurvey.data.Models.User", "User")
+                        .WithMany("Surveys")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Creator");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ccisurvey.data.Models.User", b =>
                 {
-                    b.HasOne("ccisurvey.data.Models.Proposition", null)
-                        .WithMany("Participants")
-                        .HasForeignKey("PropositionId");
-
                     b.HasOne("ccisurvey.data.Models.Survey", null)
                         .WithMany("Participants")
                         .HasForeignKey("SurveyId");
-                });
-
-            modelBuilder.Entity("ccisurvey.data.Models.Proposition", b =>
-                {
-                    b.Navigation("Participants");
                 });
 
             modelBuilder.Entity("ccisurvey.data.Models.Survey", b =>
@@ -167,6 +185,11 @@ namespace ccisurvey.data.Migrations
                     b.Navigation("Participants");
 
                     b.Navigation("Propositions");
+                });
+
+            modelBuilder.Entity("ccisurvey.data.Models.User", b =>
+                {
+                    b.Navigation("Surveys");
                 });
 #pragma warning restore 612, 618
         }

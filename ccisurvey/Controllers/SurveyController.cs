@@ -217,5 +217,16 @@ namespace ccisurvey.Controllers
 
 			return Redirect($"/survey/view/{id}");
 		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> List()
+		{
+			var claims = HttpContext.User.Claims.ToArray();
+			var userId = Int32.Parse(claims[0].Value, NumberStyles.Integer);
+			var user = await _urepo.GetAsync(userId);
+
+			return Redirect($"/survey/list/{userId}");
+		}
 	}
 }

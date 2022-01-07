@@ -180,7 +180,12 @@ namespace ccisurvey.Controllers
 				int answer = -1;
 				if (model.RadioField != "no-choice")
 				{
-					answer = Int32.Parse(model.RadioField, NumberStyles.Integer);
+					try
+					{
+						answer = Int32.Parse(model.RadioField, NumberStyles.Integer);
+					} catch {
+						return Redirect($"/survey/view/{id}");
+					}
 				}
 
 				foreach (var proposition in surveyProps)

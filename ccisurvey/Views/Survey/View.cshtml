@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using ccisurvey.data.Models
+@model ccisurvey.services.VMs.ChoiceRadioViewModel
 
 @{
     ViewData["Title"] = "View";
@@ -47,23 +48,40 @@
     }
     <div class="col-12">
         <form asp-action="Vote" asp-route-id="@survey.Id">
-            @if (survey.IsMultipleChoice)
+
+            @foreach (var choice in survey.Propositions)
             {
-                foreach (var choice in survey.Propositions)
+                if (choice.Participants.Contains(user))
                 {
-                    if (choice.Participants.Contains(user))
+                    check = true;
+                } else
+                {
+                    check = false;
+                }
+
+                <div class="form-group">
+                    @if (survey.IsMultipleChoice)
                     {
-                        check = true;
+                        <input type="checkbox" value="@choice.Id" name="@choice.Id" checked="@check" />
                     } else
                     {
-                        check = false;
+                        <input type="radio" id="@choice.Id" value="@choice.Id" name="RadioField" checked="@check" />
                     }
-                    <div class="form-group">
-                        <input type="checkbox" value="@choice.Id" name="@choice.Id" checked="@check" />
-                        <label for="@choice.Id">@choice.Label | @choice.Participants.Count votants</label>
-                    </div>
-                }
+                    <label for="@choice.Id">@choice.Label | @choice.Participants.Count votants</label>
+                </div>
             }
+
+            @if (!survey.IsMultipleChoice)
+            {
+                <div class="form-group">
+                    <input id="no-choice-option" type="radio" value="no-choice" name="RadioField" />
+                    <label for="no-choice-option">Retirer le vote</label>
+                </div>
+
+            }
+            
+
+
             <div class="form-group">
                 <input type="submit" value="Valider le vote" class="btn btn-primary" />
             </div>

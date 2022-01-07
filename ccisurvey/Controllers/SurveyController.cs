@@ -115,11 +115,20 @@ namespace ccisurvey.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Vote(IFormCollection data, int id)
+		public async Task<IActionResult> Vote(IFormCollection data, ChoiceRadioViewModel model, int id)
 		{
+
+			/*  ____________________________________________________
+			 * |													|
+			 * | THIS PART IS ABOUT INITIALIZING USER / SURVEY		|
+			 * | AND AUTHORIZE USER TO INTERACT WITH THE ANSWERS	|
+			 * | IF IN PARTICPANTS LIST OR IS THE CREATOR			|
+			 * |____________________________________________________|
+			 */
 			var claims = HttpContext.User.Claims.ToArray();
 			var userId = Int32.Parse(claims[0].Value, NumberStyles.Integer);
 			var user = await _urepo.GetAsync(userId);
+
 			var survey = await _srepo.GetAsync(id);
 
 			if (!survey.Participants.Contains(user) && !survey.User.Equals(user))
@@ -127,26 +136,76 @@ namespace ccisurvey.Controllers
 				return Redirect("/home");
 			}
 
+
+			/*  ____________________________________________________
+			 * |													|
+			 * | THIS PART DETERMINES HOW THE ANSWERS ARE TREATED	|
+			 * | DEPENDING IF IT'S A SIMPLE OR MULTIPLE CHOICE		|
+			 * | QUESTION											|
+			 * |____________________________________________________|
+			 */
 			var surveyProps = await _prepo.GetAllFromSurvey(id);
 			var answers = new List<int>();
-			foreach (var answer in data.Keys.SkipLast(1).ToArray())
-			{
-				answers.Add(Int32.Parse(answer, NumberStyles.Integer));
-			}
 
-			foreach (var proposition in surveyProps)
+			if (survey.IsMultipleChoice)
 			{
-				if (answers.Contains(proposition.Id) && !proposition.Participants.Contains(user))
+				var formData = data.Keys.SkipLast(1).ToArray();
+				foreach (var answer in formData)
 				{
-					proposition.Participants.Add(user);
-					await _prepo.UpdateAsync(proposition);
+					answers.Add(Int32.Parse(answer, NumberStyles.Integer));
 				}
-				else
+				foreach (var proposition in surveyProps)
 				{
-					if (!answers.Contains(proposition.Id) && proposition.Participants.Contains(user))
+					if (answers.Contains(proposition.Id) && !proposition.Participants.Contains(user))
 					{
-						proposition.Participants.Remove(user);
+						proposition.Participants.Add(user);
 						await _prepo.UpdateAsync(proposition);
+					}
+					else
+					{
+						if (!answers.Contains(proposition.Id) && proposition.Participants.Contains(user))
+						{
+							proposition.Participants.Remove(user);
+							await _prepo.UpdateAsync(proposition);
+						}
+					}
+				}
+			} else
+			{
+				if (model.RadioField == null)
+				{
+					return Redirect($"/survey/view/{id}");
+				}
+
+				int answer = -1;
+				if (model.RadioField != "no-choice")
+				{
+					answer = Int32.Parse(model.RadioField, NumberStyles.Integer);
+				}
+
+				foreach (var proposition in surveyProps)
+				{
+					if (model.RadioField == "no-choice")
+					{
+						if (proposition.Participants.Contains(user))
+						{
+							proposition.Participants.Remove(user);
+							await _prepo.UpdateAsync(proposition);
+						}
+					} else
+					{
+						if (proposition.Id == answer)
+						{
+							if (!proposition.Participants.Contains(user))
+							{
+								proposition.Participants.Add(user);
+								await _prepo.UpdateAsync(proposition);
+							}
+						} else
+						{
+							proposition.Participants.Remove(user);
+							await _prepo.UpdateAsync(proposition);
+						}
 					}
 				}
 			}

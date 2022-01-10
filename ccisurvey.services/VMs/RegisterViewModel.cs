@@ -30,5 +30,6 @@ namespace ccisurvey.services.VMs
 		[Compare("Password", ErrorMessage = "Les mots de passe ne correspondent pas.")]
 		[Display(Name = "Répéter mot de passe")]
 		public string PasswordRepeat { get; set; }
+		public string ReturnUrl { get; set; }
 	}
 }

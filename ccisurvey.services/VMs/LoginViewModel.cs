@@ -18,5 +18,7 @@ namespace ccisurvey.services.VMs
 		[DataType(DataType.Password)]
 		[Display(Name = "Mot de passe")]
 		public string Password { get; set; }
+
+		public string ReturnUrl { get; set; }
 	}
 }

@@ -25,6 +25,7 @@
 
         <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ReturnUrl" value="@ViewData["ReturnUrl"]" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />

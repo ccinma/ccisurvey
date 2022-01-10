@@ -1,0 +1,22 @@
+﻿@using ccisurvey.data.Models
+@model ccisurvey.services.VMs.CloseViewModel
+@{
+    var survey = (Survey)ViewData["Survey"];
+}
+
+<h1>Confirmer la fermeture du sondage</h1>
+
+<p class="fs-3">Titre: @survey.Label</p>
+
+<p>
+    Voulez-vous vraiment clôturer ce sondage&nbsp;?
+    <br />
+    Cette action est irréversible.
+</p>
+<form asp-action="Close" asp-route-id="@survey.Id" >
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Close" value="true" />
+    <div class="form-group">
+        <input type="submit" value="Clôturer le sondage"/>
+    </div>
+</form>

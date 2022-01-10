@@ -229,6 +229,14 @@ a {
     margin: 0px;
 }
 
+.login .signup {
+    margin-bottom: 20px;
+    align-self: center;
+}
+
+.login a:hover {
+    color: #FFFFFF;
+}
 /* Register page 
 -------------------------------------------------- */
 .register .form-group .create {

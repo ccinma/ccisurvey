@@ -2,9 +2,11 @@
 using ccisurvey.services;
 using ccisurvey.services.VMs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ccisurvey.Controllers
 {
@@ -17,13 +19,14 @@ namespace ccisurvey.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Register()
+		public IActionResult Register(string returnUrl)
 		{
+			ViewData["ReturnUrl"] = returnUrl;
 			return View();
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+		public async Task<IActionResult> Register(RegisterViewModel model)
 		{
 			var errors = new List<string>();
 			var user = new User()
@@ -40,7 +43,7 @@ namespace ccisurvey.Controllers
 				if (!emailExists)
 				{
 					await _auth.Register(user);
-					return (string.IsNullOrEmpty(returnUrl) ? Redirect("/auth/login") : Redirect(returnUrl));
+					return string.IsNullOrEmpty(model.ReturnUrl) ? Redirect("/auth/login") : Redirect($"/auth/login?ReturnUrl={model.ReturnUrl}");
 				} else
 				{
 					errors.Add("Email déjà existante.");
@@ -56,8 +59,9 @@ namespace ccisurvey.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Login()
+		public IActionResult Login(string returnUrl)
 		{
+			ViewData["ReturnUrl"] = returnUrl;
 			return View();
 		}
 
@@ -70,7 +74,7 @@ namespace ccisurvey.Controllers
 
 				if (result == true)
                 {
-					return Redirect("/home");
+					return string.IsNullOrEmpty(model.ReturnUrl) ? Redirect("/home") : Redirect(model.ReturnUrl);
                 }
             }
 			return View();

@@ -6,9 +6,6 @@
 
 <div class="login">
     <div class="top">
-        <a href="/">
-            <img class="logo" src="~/Image/logo.png" alt="logo" />
-        </a>
 
         <div class="top-btn">
             <div class="plus">
@@ -23,10 +20,11 @@
 
     <div class="form-container">
 
-        <h1>Connection</h1>
+        <h1>Connexion</h1>
 
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ReturnUrl" value="@(ViewData["ReturnUrl"])" />
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
@@ -41,6 +39,10 @@
                 <input class="connexion" type="submit" value="Se connecter"/>
             </div>
         </form>
+
+        <a href="/auth/register?ReturnUrl=@ViewData["ReturnUrl"]">
+            S'inscrire
+        </a>
     </div>
 </div>
 

@@ -361,6 +361,15 @@ a {
     align-self: center;
 }
 
+.view .form-container .enclose {
+    width: 350px;
+    margin-top: 20px;
+    border-radius: 23px;
+    background: #FFFFFF;
+    color: #2B2D42;
+    align-self: center;
+}
+
 .view .form-container .delete {
     width: 350px;
     margin-top: 20px;
@@ -369,4 +378,10 @@ a {
     background: #FFFFFF;
     color: #2B2D42;
     align-self: center;
+}
+
+/* Close page 
+-------------------------------------------------- */
+.closed form {
+    margin-top: 20px;
 }

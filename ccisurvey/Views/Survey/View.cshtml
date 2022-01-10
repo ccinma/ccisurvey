@@ -104,6 +104,12 @@
                     }
                 </form>
             </div>
+            @if (user.Id == survey.User.Id && !survey.IsClosed)
+            {
+                <div>
+                    <a href="/survey/close/@survey.Id"><button class="enclose">Cloturer le sondage</button></a>
+                </div>
+            }
 
             @if (user.Id == survey.User.Id)
             {

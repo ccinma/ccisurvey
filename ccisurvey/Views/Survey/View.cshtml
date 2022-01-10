@@ -61,35 +61,46 @@
 
                         <div class="form-group">
                             <div class="left">
-                                @if (survey.IsMultipleChoice)
+                                @if (!survey.IsClosed)
                                 {
-                                    <input class="input" type="checkbox" value="@choice.Id" name="@choice.Id" checked="@check" />
-                                } else
-                                {
-                                    <input class="input" type="radio" id="@choice.Id" value="@choice.Id" name="RadioField" checked="@check" />
+                                    if (survey.IsMultipleChoice)
+                                    {
+                                        <input class="input" type="checkbox" value="@choice.Id" name="@choice.Id" checked="@check" />
+                                    } else
+                                    {
+                                        <input class="input" type="radio" id="@choice.Id" value="@choice.Id" name="RadioField" checked="@check" />
+                                    }
                                 }
-                            <label for="@choice.Id">@choice.Label</label>
+                                <label for="@choice.Id">@choice.Label</label>
                             </div>
                             
                             <label for="@choice.Id">@choice.Participants.Count votants</label>
                         </div>
                     }
 
-                    @if (!survey.IsMultipleChoice)
+                    @if (!survey.IsClosed)
                     {
-                        <div class="form-group">
-                            <input id="no-choice-option" type="radio" value="no-choice" name="RadioField" />
-                            <label for="no-choice-option">Retirer le vote</label>
-                        </div>
-                    }
+                        if (!survey.IsMultipleChoice)
+                        {
+                            <div class="form-group justify-content-start">
+                                <div>
+                                    <input style="margin-right: 10px;" id="no-choice-option" type="radio" value="no-choice" name="RadioField" />
+                                </div>
+                                <label for="no-choice-option">Retirer le vote</label>
+                            </div>
+                        }
 
-                    <input class="validate" type="submit" value="Valider le vote"/>
+                        <input class="validate" type="submit" value="Valider le vote"/>
 
-                    @if (user.Id == survey.User.Id)
+                        if (user.Id == survey.User.Id)
+                        {
+                            <p class="add">
+                                <a asp-action="AddProposition" asp-route-id="@survey.Id">Ajouter / Modifier une proposition</a>
+                            </p>
+                        }
+                    } else
                     {
-                        <p class="add">
-                            <a asp-action="AddProposition" asp-route-id="@survey.Id">Ajouter / Modifier une proposition</a>
-                        </p>
+                        <p class="text-center mt-3">Sondage terminé&nbsp;!</p>
                     }
                 </form>
             </div>

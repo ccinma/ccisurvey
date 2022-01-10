@@ -75,6 +75,19 @@ namespace ccisurvey.Controllers
 		{
 			var survey = await _srepo.GetAsync(id);
 
+			if (survey == null)
+			{
+				ViewData["ErrorMessage"] = "Page non trouvée.";
+				ViewData["ErrorCode"] = "404";
+
+				return View("Error");
+			}
+
+			if (survey.IsClosed)
+			{
+				return Redirect($"/survey/view/{id}");
+			}
+
 			ViewData["Survey"] = survey;
 			return View();
 		}
@@ -93,6 +106,11 @@ namespace ccisurvey.Controllers
 					ViewData["ErrorCode"] = "404";
 
 					return View("Error");
+				}
+
+				if (survey.IsClosed)
+				{
+					return Redirect($"/survey/view/{id}");
 				}
 
 				var proposition = new Proposition()
@@ -164,7 +182,12 @@ namespace ccisurvey.Controllers
 
 			if (!survey.Participants.Contains(user) && !survey.User.Equals(user))
 			{
-				return Redirect("/home");
+				return Redirect("/home/mysurveys");
+			}
+
+			if (survey.IsClosed)
+			{
+				return Redirect($"/survey/view/{survey.Id}");
 			}
 
 
@@ -244,6 +267,68 @@ namespace ccisurvey.Controllers
 						}
 					}
 				}
+			}
+
+			return Redirect($"/survey/view/{id}");
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Close(int id)
+		{
+			var claims = HttpContext.User.Claims.ToArray();
+			var userId = Int32.Parse(claims[0].Value, NumberStyles.Integer);
+			var user = await _urepo.GetAsync(userId);
+
+			var survey = await _srepo.GetAsync(id);
+
+			if (survey == null)
+			{
+				ViewData["ErrorMessage"] = "Page non trouvée.";
+				ViewData["ErrorCode"] = "404";
+
+				return View("Error");
+			}
+
+			if (user.Id != survey.User.Id)
+			{
+				return Redirect("/home/MySurveys");
+			}
+
+			ViewData["Survey"] = survey;
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Close(int id, CloseViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return Redirect("/home/mysurveys");
+			}
+
+			if (model.Close == false)
+			{
+				return Redirect("/home/mysurveys");
+			}
+
+			var claims = HttpContext.User.Claims.ToArray();
+			var userId = Int32.Parse(claims[0].Value, NumberStyles.Integer);
+			var user = await _urepo.GetAsync(userId);
+
+			var survey = await _srepo.GetAsync(id);
+
+			if (survey == null)
+			{
+				ViewData["ErrorMessage"] = "Page non trouvée.";
+				ViewData["ErrorCode"] = "404";
+
+				return View("Error");
+			}
+
+			if (user.Id == survey.User.Id)
+			{
+				survey.IsClosed = true;
+				await _srepo.UpdateAsync(survey);
 			}
 
 			return Redirect($"/survey/view/{id}");

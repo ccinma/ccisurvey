@@ -27,10 +27,14 @@ namespace ccisurvey.Controllers
 			_urepo = urepo;
 			_prepo = prepo;
 		}
+
+
+		[HttpGet]
 		public async Task<IActionResult> Create()
 		{
 			return View();
 		}
+
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -65,6 +69,8 @@ namespace ccisurvey.Controllers
 			return View();
 		}
 
+
+		[HttpGet]
 		public async Task<IActionResult> AddProposition(int id)
 		{
 			var survey = await _srepo.GetAsync(id);
@@ -73,6 +79,7 @@ namespace ccisurvey.Controllers
 			return View();
 		}
 
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> AddProposition(CreatePropositionViewModel model, int id)
@@ -80,6 +87,14 @@ namespace ccisurvey.Controllers
 			if (ModelState.IsValid)
 			{
 				var survey = await _srepo.GetAsync(id);
+				if (survey == null)
+				{
+					ViewData["ErrorMessage"] = "Page non trouvée.";
+					ViewData["ErrorCode"] = "404";
+
+					return View("Error");
+				}
+
 				var proposition = new Proposition()
 				{
 					Label = model.Label,
@@ -92,26 +107,34 @@ namespace ccisurvey.Controllers
 			return View();
 		}
 
+
+		[HttpGet]
 		public async Task<IActionResult> View(int id)
 		{
 			var claims = HttpContext.User.Claims.ToArray();
 			var userId = Int32.Parse(claims[0].Value, NumberStyles.Integer);
 			var user = await _urepo.GetAsync(userId);
 
-			var survey = await _srepo.GetAsync(id, false);
+			var survey = await _srepo.GetAsync(id);
+
+			if (survey == null)
+			{
+				ViewData["ErrorMessage"] = "Page non trouvée.";
+				ViewData["ErrorCode"] = "404";
+
+				return View("Error");
+			}
 
 			if (!survey.Participants.Contains(user) && !survey.User.Equals(user))
 			{
 				return Redirect("/home");
 			}
 
-			var surveyProps = await _prepo.GetAllFromSurvey(id);
-			survey.Propositions = surveyProps;
-
 			ViewData["Survey"] = survey;
 			ViewData["User"] = user;
 			return View();
 		}
+
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -130,6 +153,14 @@ namespace ccisurvey.Controllers
 			var user = await _urepo.GetAsync(userId);
 
 			var survey = await _srepo.GetAsync(id);
+
+			if (survey == null)
+			{
+				ViewData["ErrorMessage"] = "Page non trouvée.";
+				ViewData["ErrorCode"] = "404";
+
+				return View("Error");
+			}
 
 			if (!survey.Participants.Contains(user) && !survey.User.Equals(user))
 			{
@@ -217,5 +248,6 @@ namespace ccisurvey.Controllers
 
 			return Redirect($"/survey/view/{id}");
 		}
+
 	}
 }

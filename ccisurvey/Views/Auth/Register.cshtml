@@ -5,7 +5,7 @@
     var errors = (List<string>)ViewData["Errors"];
 }
 
-<div class="register">
+<div class="all register">
     <div class="form-container">
         <div class="error">
             @{
@@ -51,108 +51,3 @@
         </form>
     </div>
 </div>
-
-<style scoped>
-    body {
-        background: #FDF1D8;
-    }
-
-    .register {
-        height: 100%;
-        margin: 0px;
-        padding: 0px;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-    }
-
-    .register * {
-        margin: 0;
-        padding: 0;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-    }
-
-    .top {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items:flex-start;
-    }
-
-    .logo {
-        height: 60px;
-        margin: 50px;
-    }
-
-    .top-btn {
-        margin: 50px;
-        flex-direction: row;
-        right: 0px;
-        top: 0px;
-    }
-
-    .plus, .person-fill {
-        width: 60px;
-        height: 60px;
-        margin-left: 10px;
-        padding:10px;
-
-        border-radius: 666px;
-
-        color: #FFFFFF;
-        background: #E86A92;
-    }
-
-    .plus *, .person-fill * {
-        color: #FFFFFF;
-    }
-
-    .form-container {
-        height: 100%;
-        margin-inline: 50px;
-        padding-inline: 20px;
-        padding-top: 20px;
-        border-radius: 20px;
-        background: #2B2D42;
-    }
-
-    .form-container * {
-        color: #FFFFFF;
-        font-weight: 800;
-        font-size: 16pt;
-    }
-
-    .form-container h1 {
-        margin-bottom: 20px;
-        font-size: 24pt;
-        align-self: center;
-    }
-
-    .form-group {
-        margin-bottom: 20px
-    }
-
-    .form-group input {
-        border-radius: 666px;
-        color: #2B2D42;
-    }
-
-    .form-group .form-control{
-        margin-top: 5px;
-        padding-inline: 20px;
-        font-weight: 400;
-    }
-
-    .form-group .create {
-        width: 250px;
-        color: #2B2D42;
-        background: #FFFFFF;
-
-        text-align: center;
-        align-self: center;
-    }
-</style>

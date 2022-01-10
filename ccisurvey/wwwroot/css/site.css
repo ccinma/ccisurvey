@@ -97,6 +97,109 @@ body {
     height: 60px;
 }
 
+/* All pages 
+-------------------------------------------------- */
+a {
+    text-decoration: none !important;
+}
+
+.all {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.all * {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.form-container {
+    height: 100%;
+    padding-inline: 20px;
+    padding-top: 20px;
+    border-radius: 20px;
+    background: #2B2D42;
+}
+
+.form-container * {
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 16pt;
+}
+
+.form-container h1 {
+    margin-bottom: 20px;
+    font-size: 24pt;
+    align-self: center;
+}
+
+.form-group {
+    margin-bottom: 20px
+}
+
+.form-group input {
+    border-radius: 23px;
+    color: #2B2D42;
+}
+
+.form-group .form-control {
+    padding-inline: 20px;
+    font-weight: 400;
+}
+
+.form-container tr {
+    padding-inline: 10px;
+    margin-top: 20px;
+    border-radius: 23px;
+    background: #E86A92;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.form-container tr * {
+    flex-direction: row;
+}
+
+.form-group label {
+    margin-top: 20px;
+}
+
+.form-container .title {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container .title h1 {
+    font-style: normal;
+    margin-bottom: 0;
+    font-size: 24pt;
+    align-self: center;
+}
+
+.form-container .title svg {
+    height: 20px;
+    margin-left: 10px;
+}
+
+.form-group input, .form-group textarea {
+    border-radius: 23px;
+    color: #2B2D42;
+}
+
+.form-check-input {
+    position: relative;
+}
 
 /* Home page 
 -------------------------------------------------- */
@@ -110,4 +213,152 @@ body {
     background: #2B2D42;
     font-weight: 800;
     font-style: italic;
+}
+
+/* Login page 
+-------------------------------------------------- */
+.login .form-group .connexion {
+    width: 250px;
+    color: #2B2D42;
+    background: #FFFFFF;
+    text-align: center;
+    align-self: center;
+}
+
+.login label {
+    margin: 0px;
+}
+
+/* Register page 
+-------------------------------------------------- */
+.register .form-group .create {
+    width: 250px;
+    color: #2B2D42;
+    background: #FFFFFF;
+    text-align: center;
+    align-self: center;
+}
+
+.register label {
+    margin: 0px;
+}
+
+/* MySurveys page 
+-------------------------------------------------- */
+.mySurveys .form-container .survey {
+    margin-bottom: 20px;
+    padding-inline: 10px;
+    border-radius: 23px;
+    background: #e86a92;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.mySurveys .form-container .survey svg {
+    height: 23px;
+}
+
+/* AddProposition page 
+-------------------------------------------------- */
+.addProp a:hover {
+    color: #FFFFFF;
+}
+
+.addProp .form-group .enter {
+    padding-inline: 10px;
+    font-weight: 400;
+    border-radius: 23px;
+    color: #2B2D42;
+}
+
+.addProp .form-group .add {
+    width: 350px;
+    border-radius: 23px;
+    color: #2B2D42;
+    background: #FFFFFF;
+    text-align: center;
+    align-self: center;
+}
+
+.addProp .end {
+    margin-bottom: 20px;
+    align-self: center;
+}
+
+/* Create page 
+-------------------------------------------------- */
+.create div .multiple {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: stretch;
+}
+
+.create div .multiple p {
+    margin-left: 20px;
+}
+
+.create .form-group .next {
+    width: 350px;
+    color: #2B2D42;
+    background: #FFFFFF;
+    text-align: center;
+    align-self: center;
+}
+
+.create label {
+    margin: 0px;
+}
+
+/* View page 
+-------------------------------------------------- */
+.view form {
+    margin-top: 20px;
+}
+.view .form-container .form-group {
+    padding-inline: 10px;
+    border-radius: 23px;
+    background: #E86A92;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.view .form-container .form-group label {
+    margin: 0px
+}
+
+.view .form-container .left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.view .form-container .input {
+    margin-right: 10px;
+    position: relative;
+}
+
+.view .form-container .validate {
+    width: 250px;
+    border-radius: 23px;
+    background: #FFFFFF;
+    color: #2B2D42;
+    align-self: center;
+}
+
+.view .form-container .add {
+    margin-top: 20px;
+    align-self: center;
+}
+
+.view .form-container .delete {
+    width: 350px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 23px;
+    background: #FFFFFF;
+    color: #2B2D42;
+    align-self: center;
 }

@@ -4,61 +4,8 @@
     ViewData["Title"] = "CreateSurvey";
 }
 
-<!--
-<h1>CreateSurvey</h1>
-
-<h4>Survey</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Label" class="control-label"></label>
-                <input asp-for="Label" class="form-control" />
-                <span asp-validation-for="Label" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" ></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsMultipleChoice" /> @Html.DisplayNameFor(model => model.IsMultipleChoice)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Passer à la suite" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
--->
-
-<div class="create">
-    <div class="top">
-        <a href="/">
-            <img class="logo" src="~/Image/logo.png" alt="logo" />
-        </a>
-
-        <div class="top-btn">
-            <a href="/survey/create">
-                <div class="plus">
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" class="svg-inline--fa fa-plus fa-w-14" role="img" viewBox="0 0 448 512"><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/></svg>
-                </div>
-            </a>
-
-            <a href="/home/mysurveys">
-                <div class="person-fill">
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" class="svg-inline--fa fa-user fa-w-14" role="img" viewBox="0 0 448 512"><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"/></svg>
-                </div>
-            </a>
-        </div>
-    </div>
-
+<div class="all create">
     <div class="form-container">
-
         <h1>Création d'un sondage</h1>
 
         <form asp-action="Create">
@@ -74,11 +21,6 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group multiple">
-                <!--
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsMultipleChoice" /> @Html.DisplayNameFor(model => model.IsMultipleChoice)
-                </label>
-                -->
                 <input class="form-check-input" asp-for="IsMultipleChoice" />
                 <p>Sondage à choix multiple</p>
             </div>
@@ -88,123 +30,3 @@
         </form>
     </div>
 </div>
-
-<style scoped>
-    body {
-        background: #FDF1D8;
-    }
-
-    .create {
-        height: 100%;
-        margin: 0px;
-        padding: 0px;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-    }
-
-    .create * {
-        margin: 0;
-        padding: 0;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-    }
-
-    .top {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items:flex-start;
-    }
-
-    .logo {
-        height: 60px;
-        margin: 50px;
-    }
-
-    .top-btn {
-        margin: 50px;
-        flex-direction: row;
-        right: 0px;
-        top: 0px;
-    }
-
-    .plus, .person-fill {
-        width: 60px;
-        height: 60px;
-        margin-left: 10px;
-        padding:10px;
-
-        border-radius: 666px;
-
-        color: #FFFFFF;
-        background: #E86A92;
-    }
-
-    .plus *, .person-fill * {
-        color: #FFFFFF;
-    }
-
-    .form-container {
-        height: 100%;
-        margin-inline: 50px;
-        padding-inline: 20px;
-        padding-top: 20px;
-        border-radius: 20px;
-        background: #2B2D42;
-    }
-
-    .form-container * {
-        color: #FFFFFF;
-        font-weight: 800;
-        font-size: 16pt;
-    }
-
-    .form-container h1 {
-        margin-bottom: 20px;
-        font-size: 24pt;
-        align-self: center;
-    }
-
-    .form-group {
-        margin-bottom: 20px
-    }
-
-    .form-group input, .form-group textarea {
-        border-radius: 23px;
-        color: #2B2D42;
-    }
-
-    .form-group .form-control{
-        margin-top: 5px;
-        padding-inline: 20px;
-        font-weight: 400;
-    }
-
-    div .multiple {
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        align-content: stretch;
-    }
-
-    .form-check-input {
-        position: relative;
-    }
-
-    .multiple p {
-        margin-left: 20px;
-    }
-
-    .form-group .next {
-        width: 350px;
-        color: #2B2D42;
-        background: #FFFFFF;
-
-        text-align: center;
-        align-self: center;
-    }
-</style>

@@ -59,8 +59,9 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background: #FDF1D8;
 }
 .footer {
   position: absolute;
@@ -68,4 +69,45 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+.wrapper {
+    max-width: 1128px;
+    margin: 0 auto;
+}
+
+
+/* Sticky header 
+-------------------------------------------------- */
+.header .nav-btn {
+    width: clamp(50px, 15vw, 60px);
+    height: clamp(50px, 15vw, 60px);
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 666px;
+    color: #FFFFFF;
+    background: #E86A92;
+}
+.header .nav-btn>* {
+    width: 100%;
+    height: 100%;
+}
+
+.header .nav-logo {
+    height: 60px;
+}
+
+
+/* Home page 
+-------------------------------------------------- */
+.home .logo {
+    width: clamp(250px, 70vw, 300px);
+}
+.home .explication {
+    color: #FFFFFF;
+    font-size: clamp(17px, 4vw, 1.5rem);
+    border-radius: 20px;
+    background: #2B2D42;
+    font-weight: 800;
+    font-style: italic;
 }

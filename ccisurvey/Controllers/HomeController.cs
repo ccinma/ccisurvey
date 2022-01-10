@@ -31,6 +31,7 @@ namespace ccisurvey.Controllers
 		[AllowAnonymous]
 		public IActionResult Index()
 		{
+			ViewData["isHome"] = true;
 			return View();
 		}
 

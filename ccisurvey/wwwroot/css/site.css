@@ -7,6 +7,10 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.hr-gray {
+    border-top: 1px solid lightgray;
+}
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
@@ -63,25 +67,59 @@ body {
     margin-bottom: 60px;
     background: #FDF1D8;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
-}
 
 .wrapper {
     max-width: 1128px;
     margin: 0 auto;
+    padding-bottom: 80px;
 }
 
+
+/* Sticky footer 
+-------------------------------------------------- */
+.footer {
+    position: fixed;
+    z-index: 10;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+    border: none !important;
+    background-color: #2B2D42;
+    padding-block: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.footer .nav {
+    width: 330px;
+    justify-content: space-around;
+}
+
+.footer .nav-btn {
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 666px;
+    color: #FFFFFF;
+    border: 5px solid white;
+    display: flex;
+    align-items: center;
+}
+
+.footer .nav-btn > * {
+    width: 100%;
+    height: 100%;
+}
 
 /* Sticky header 
 -------------------------------------------------- */
 .header .nav-btn {
-    width: clamp(50px, 15vw, 60px);
-    height: clamp(50px, 15vw, 60px);
+    width: clamp(45px, 15vw, 60px);
+    height: clamp(45px, 15vw, 60px);
     margin-left: 10px;
     padding: 10px;
     border-radius: 666px;
@@ -212,7 +250,6 @@ a {
     border-radius: 20px;
     background: #2B2D42;
     font-weight: 800;
-    font-style: italic;
 }
 
 /* Login page 
@@ -324,6 +361,11 @@ a {
 .view form {
     margin-top: 20px;
 }
+
+.view .form-container {
+    padding-bottom: 20px;
+}
+
 .view .form-container .form-group {
     padding-inline: 10px;
     border-radius: 23px;
@@ -371,9 +413,9 @@ a {
 }
 
 .view .form-container .delete {
-    width: 350px;
+    width: 100%;
+    max-width: 350px;
     margin-top: 20px;
-    margin-bottom: 20px;
     border-radius: 23px;
     background: #FFFFFF;
     color: #2B2D42;

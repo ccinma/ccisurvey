@@ -28,6 +28,15 @@ namespace ccisurvey.Controllers
 			_prepo = prepo;
 		}
 
+		
+
+
+
+		/*	 ___________________________
+		 *	|							|
+		 *	|	CREATE SURVEY			|
+		 *	|___________________________|
+		 */
 
 		[HttpGet]
 		public async Task<IActionResult> Create()
@@ -35,6 +44,7 @@ namespace ccisurvey.Controllers
 			return View();
 		}
 
+		/* ____________________________ */
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -69,10 +79,24 @@ namespace ccisurvey.Controllers
 			return View();
 		}
 
+		/* ____________________________ */
+
+
+
+		/*	 ___________________________
+		 *	|							|
+		 *	|	ADD PROPOSITION	TO		|
+		 *	|		SURVEY				|
+		 *	|___________________________|
+		 */
 
 		[HttpGet]
 		public async Task<IActionResult> AddProposition(int id)
 		{
+			var claims = HttpContext.User.Claims.ToArray();
+			var userId = Int32.Parse(claims[0].Value, NumberStyles.Integer);
+			var user = await _urepo.GetAsync(userId);
+
 			var survey = await _srepo.GetAsync(id);
 
 			if (survey == null)
@@ -81,6 +105,11 @@ namespace ccisurvey.Controllers
 				ViewData["ErrorCode"] = "404";
 
 				return View("Error");
+			}
+
+			if (!survey.User.Equals(user))
+			{
+				return Redirect($"/survey/view/{id}");
 			}
 
 			if (survey.IsClosed)
@@ -92,6 +121,7 @@ namespace ccisurvey.Controllers
 			return View();
 		}
 
+		/* ____________________________ */
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -99,6 +129,10 @@ namespace ccisurvey.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				var claims = HttpContext.User.Claims.ToArray();
+				var userId = Int32.Parse(claims[0].Value, NumberStyles.Integer);
+				var user = await _urepo.GetAsync(userId);
+
 				var survey = await _srepo.GetAsync(id);
 				if (survey == null)
 				{
@@ -106,6 +140,11 @@ namespace ccisurvey.Controllers
 					ViewData["ErrorCode"] = "404";
 
 					return View("Error");
+				}
+
+				if (!survey.User.Equals(user))
+				{
+					return Redirect($"/survey/view/{id}");
 				}
 
 				if (survey.IsClosed)
@@ -125,6 +164,16 @@ namespace ccisurvey.Controllers
 			return View();
 		}
 
+		/* ____________________________ */
+
+
+
+
+		/*	 ___________________________
+		 *	|							|
+		 *	|		VIEW SURVEY			|
+		 *	|___________________________|
+		 */
 
 		[HttpGet]
 		public async Task<IActionResult> View(int id)
@@ -143,9 +192,9 @@ namespace ccisurvey.Controllers
 				return View("Error");
 			}
 
-			if (!survey.Participants.Contains(user) && !survey.User.Equals(user))
+			if (!survey.Participants.Contains(user.Email) && !survey.User.Equals(user))
 			{
-				return Redirect("/home");
+				return Redirect("/home/MySurveys");
 			}
 
 			ViewData["Survey"] = survey;
@@ -153,6 +202,16 @@ namespace ccisurvey.Controllers
 			return View();
 		}
 
+		/* ____________________________ */
+
+
+
+
+		/*	 ___________________________
+		 *	|							|
+		 *	|	VOTE TO A PROPOSITION	|
+		 *	|___________________________|
+		 */
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -180,7 +239,7 @@ namespace ccisurvey.Controllers
 				return View("Error");
 			}
 
-			if (!survey.Participants.Contains(user) && !survey.User.Equals(user))
+			if (!survey.Participants.Contains(user.Email) && !survey.User.Equals(user))
 			{
 				return Redirect("/home/mysurveys");
 			}
@@ -272,6 +331,17 @@ namespace ccisurvey.Controllers
 			return Redirect($"/survey/view/{id}");
 		}
 
+		/* ____________________________ */
+
+
+
+
+		/*	 ___________________________
+		 *	|							|
+		 *	|		CLOSE A SURVEY		|
+		 *	|___________________________|
+		 */
+
 		[HttpGet]
 		public async Task<IActionResult> Close(int id)
 		{
@@ -291,12 +361,15 @@ namespace ccisurvey.Controllers
 
 			if (user.Id != survey.User.Id)
 			{
-				return Redirect("/home/MySurveys");
+				return Redirect($"/survey/view/{id}");
 			}
 
 			ViewData["Survey"] = survey;
 			return View();
 		}
+
+		/* ____________________________ */
+
 
 		[HttpPost]
 		public async Task<IActionResult> Close(int id, CloseViewModel model)
@@ -332,6 +405,102 @@ namespace ccisurvey.Controllers
 			}
 
 			return Redirect($"/survey/view/{id}");
+		}
+
+		/* ____________________________ */
+
+
+
+
+		/*	 ___________________________
+		 *	|							|
+		 *	|	ADD A PARTICIPANT TO	|
+		 *	|			SURVEY			|
+		 *	|___________________________|
+		 */
+
+		[HttpGet]
+		public async Task<IActionResult> AddParticipant(int id)
+		{
+			var claims = HttpContext.User.Claims.ToArray();
+			var userId = Int32.Parse(claims[0].Value, NumberStyles.Integer);
+			var user = await _urepo.GetAsync(userId);
+
+			var survey = await _srepo.GetAsync(id);
+
+			if (survey == null)
+			{
+				ViewData["ErrorMessage"] = "Page non trouvée.";
+				ViewData["ErrorCode"] = "404";
+
+				return View("Error");
+			}
+
+			if (user.Id != survey.User.Id)
+			{
+				return Redirect($"/survey/view/{id}");
+			}
+
+			var participants = survey.Participants.Split(';').ToList();
+
+			ViewData["Survey"] = survey;
+			ViewData["Participants"] = participants;
+			return View();
+		}
+
+		/* ____________________________ */
+
+
+		[HttpPost]
+		public async Task<IActionResult> AddParticipant(AddParticipantViewModel model, int id)
+		{
+			var claims = HttpContext.User.Claims.ToArray();
+			var userId = Int32.Parse(claims[0].Value, NumberStyles.Integer);
+			var user = await _urepo.GetAsync(userId);
+
+			var survey = await _srepo.GetAsync(id);
+
+			if (survey == null)
+			{
+				ViewData["ErrorMessage"] = "Page non trouvée.";
+				ViewData["ErrorCode"] = "404";
+
+				return View("Error");
+			}
+
+			if (user.Id != survey.User.Id)
+			{
+				return Redirect($"/survey/view/{id}");
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return Redirect($"/survey/addparticipant/{id}");
+			}
+
+			//var participant = await _urepo.GetByEmailAsync(model.Email);
+
+			//if (participant == null)
+			//{
+			//	participant = new User()
+			//	{
+			//		Name = "User",
+			//		Email = model.Email,
+			//		Password = "123456"
+			//	};
+			//	//await _urepo.AddAsync(participant);
+
+			//	// TODO : When mailing is op, send mail here
+
+			//}
+
+			if (!survey.Participants.Contains(model.Email))
+			{
+				survey.Participants += (model.Email) + ";";
+				await _srepo.UpdateAsync(survey);
+			}
+
+			return Redirect($"/survey/addparticipant/{id}");
 		}
 
 	}

@@ -15,6 +15,7 @@ namespace ccisurvey.data.Models
             CreatedAt = DateTime.Now;
             Surveys = new List<Survey>();
             Propositions = new List<Proposition>();
+            IsApprouved = false;
         }
 
         [Key]
@@ -41,5 +42,8 @@ namespace ccisurvey.data.Models
 
         [Required]
         public List<Proposition> Propositions { get; set; }
+
+        [Required]
+        public bool IsApprouved { get; set; }
     }
 }

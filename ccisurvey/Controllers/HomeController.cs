@@ -54,6 +54,11 @@ namespace ccisurvey.Controllers
 			var userId = Int32.Parse(claims[0].Value, NumberStyles.Integer);
 			var user = await _urepo.GetAsync(userId);
 
+			if (user == null)
+			{
+				return Redirect("/home");
+			}
+
 			var allSurveys = await _srepo.GetAllByUserAsync(user);
 			var createdSurveys = new List<Survey>();
 			var participatingSurveys = new List<Survey>();

@@ -1,4 +1,5 @@
 ﻿using ccisurvey.data.Models;
+using ccisurvey.data.Repositories;
 using ccisurvey.services;
 using ccisurvey.services.VMs;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +14,11 @@ namespace ccisurvey.Controllers
 	public class AuthController : Controller
 	{
 		private readonly IAuthService _auth;
-		public AuthController(IAuthService service)
+		private readonly IUserRepository _urepo;
+		public AuthController(IAuthService service, IUserRepository urepo)
 		{
 			_auth = service;
+			_urepo = urepo;
 		}
 
 		[HttpGet]
@@ -46,6 +49,14 @@ namespace ccisurvey.Controllers
 					return string.IsNullOrEmpty(model.ReturnUrl) ? Redirect("/auth/login") : Redirect($"/auth/login?ReturnUrl={model.ReturnUrl}");
 				} else
 				{
+					var participant = await _urepo.GetByEmailAsync(model.Email);
+
+					//if (!participant.IsApprouved)
+					//{
+					//	ViewData["User"] = participant;
+					//	return View("AlreadyUsedMail");
+					//}
+
 					errors.Add("Email déjà existante.");
 				} 
 

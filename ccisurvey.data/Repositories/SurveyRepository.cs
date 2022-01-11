@@ -51,8 +51,13 @@ namespace ccisurvey.data.Repositories
 
 		public async Task<List<Survey>> GetAllByUserAsync(User user)
 		{
+			var mail = user.Email;
 			return await _db.Survey
-				.Where(s => s.User == user || s.Participants.Contains(user))
+				.Where(
+					s => s.User == user 
+					|| s.Participants.Contains(mail)
+				)
+				.Include(s => s.User)
 				.ToListAsync();
 		}
 

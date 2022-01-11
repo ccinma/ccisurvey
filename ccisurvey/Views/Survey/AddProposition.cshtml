@@ -41,7 +41,9 @@
                 <div>
                     @if (survey.Propositions.Count == 0)
                     {
-                        <p>Aucune proposition ajoutée pour le moment...</p>
+                        <p class="text-center mt-3" style="color: lightgray; font-size: 1.2rem">
+                            Aucune proposition ajoutée pour le moment...
+                        </p>
                     } else
                     {
                         <table>
@@ -69,16 +71,16 @@
                             <input class="enter" asp-for="Label"/>
                             <span asp-validation-for="Label"></span>
                         </div>
-                        <div class="form-group">
-                            <input class="add" type="submit" value="Ajouter une proposition"/>
+                        <div class="form-group mas-btn-container">
+                            <button class="mas-btn mas-btn-white mt-3" type="submit" value="Ajouter une proposition">Ajouter une proposition</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div>
-            <a class="end" asp-action="View" asp-route-id="@survey.Id" >Finir</a>
+        <div class="mt-4 mb-2">
+            <a class="end" asp-action="View" asp-route-id="@survey.Id" >Terminer l'ajout</a>
         </div>
     </div>
 </div>

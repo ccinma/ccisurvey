@@ -359,6 +359,11 @@ namespace ccisurvey.Controllers
 				return View("Error");
 			}
 
+			if (survey.IsClosed)
+			{
+				return Redirect($"/survey/view/{id}");
+			}
+
 			if (user.Id != survey.User.Id)
 			{
 				return Redirect($"/survey/view/{id}");
@@ -396,6 +401,11 @@ namespace ccisurvey.Controllers
 				ViewData["ErrorCode"] = "404";
 
 				return View("Error");
+			}
+
+			if (survey.IsClosed)
+			{
+				return Redirect($"/survey/view/{id}");
 			}
 
 			if (user.Id == survey.User.Id)

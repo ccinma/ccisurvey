@@ -28,6 +28,29 @@ a {
   border-color: #1861ac;
 }
 
+
+/* Buttons
+-------------------------------------------------- */
+.mas-btn-container {
+    margin: 0 auto !important;
+}
+
+.mas-btn {
+/*    width: 100%;*/
+    border: none;
+    background-color: none;
+    text-align: center;
+    padding: 0.3rem 2rem !important;
+    display: inline;
+    overflow-wrap: normal;
+}
+.mas-btn-white {
+    background-color: white;
+    color: #2B2D42 !important;
+    border-radius: 500px;
+}
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -63,8 +86,6 @@ html {
 }
 
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
     background: #FDF1D8;
 }
 

@@ -18,7 +18,7 @@ namespace ccisurvey.data.Models
 			IsClosed = false;
 			IsAnonymous = false;
 			IsMultipleChoice = false;
-			Participants = new List<User>() { };
+			Participants = "";
 		}
 
 		[Key]
@@ -49,7 +49,7 @@ namespace ccisurvey.data.Models
 		public bool IsClosed { get; set; }
 
 		[Required]
-		public List<User> Participants { get; set; }
+		public string Participants { get; set; }
 
 		[Required]
 		public bool IsAnonymous { get; set; }

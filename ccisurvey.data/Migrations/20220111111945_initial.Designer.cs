@@ -10,7 +10,7 @@ using ccisurvey.data;
 namespace ccisurvey.data.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220110113944_initial")]
+    [Migration("20220111111945_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,6 +92,10 @@ namespace ccisurvey.data.Migrations
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
 
+                    b.Property<string>("Participants")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -116,6 +120,9 @@ namespace ccisurvey.data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsApprouved")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -126,12 +133,7 @@ namespace ccisurvey.data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("SurveyId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SurveyId");
 
                     b.ToTable("User");
                 });
@@ -167,23 +169,14 @@ namespace ccisurvey.data.Migrations
                     b.HasOne("ccisurvey.data.Models.User", "User")
                         .WithMany("Surveys")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ccisurvey.data.Models.User", b =>
-                {
-                    b.HasOne("ccisurvey.data.Models.Survey", null)
-                        .WithMany("Participants")
-                        .HasForeignKey("SurveyId");
-                });
-
             modelBuilder.Entity("ccisurvey.data.Models.Survey", b =>
                 {
-                    b.Navigation("Participants");
-
                     b.Navigation("Propositions");
                 });
 

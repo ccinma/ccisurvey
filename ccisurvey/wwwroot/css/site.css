@@ -352,6 +352,17 @@ a {
     align-self: center;
 }
 
+/* Close page 
+-------------------------------------------------- */
+.addPart .form-group {
+    align-items: center;
+}
+
+.addPart .add {
+    padding-inline: 20px;
+    background: #FFFFFF;
+}
+
 /* Create page 
 -------------------------------------------------- */
 .create div .multiple {
@@ -448,3 +459,4 @@ a {
 .closed form {
     margin-top: 20px;
 }
+

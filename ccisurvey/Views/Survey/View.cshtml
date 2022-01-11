@@ -104,26 +104,33 @@
                             </div>
                         }
 
-                        <input class="validate" type="submit" value="Valider le vote"/>
+                        <div class="mas-btn-container py-4">
+                            <button class="mas-btn mas-btn-white" type="submit" value="Valider le vote">
+                                Valider le vote
+                            </button>
+                        </div>
 
                         if (user.Id == survey.User.Id)
                         {
-                            <p class="add">
-                                <a asp-action="AddProposition" asp-route-id="@survey.Id">Ajouter / Modifier une proposition</a>
+                            <hr class="hr-gray m-3 mb-4" />
+
+                            <p class="text-center mb-4">
+                                <a asp-action="AddProposition" asp-route-id="@survey.Id" class="mb-3">Ajouter / Modifier une proposition</a>
+                                <a asp-action="AddParticipant" asp-route-id="@survey.Id" class="mb-3">Ajouter un participant</a>
+                                @if (!survey.IsClosed)
+                                {
+                                    <a asp-action="close" asp-route-id="@survey.Id">Clôturer le sondage</a>
+                                }
                             </p>
+
                         }
                     } else
                     {
+                        <hr class="hr-gray m-3 mb-4" />
                         <p class="text-center mt-3">Sondage terminé&nbsp;!</p>
                     }
                 </form>
             </div>
-            @if (user.Id == survey.User.Id && !survey.IsClosed)
-            {
-                <div>
-                    <a href="/survey/close/@survey.Id"><button class="enclose">Cloturer le sondage</button></a>
-                </div>
-            }
 
             @if (user.Id == survey.User.Id)
             {

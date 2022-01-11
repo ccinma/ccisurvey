@@ -1,7 +1,7 @@
 ﻿@{
     var claims = Context.User.Claims.ToArray();
-    string userName;
-    string userEmail;
+    string userName = "";
+    string userEmail = "";
     bool connected = false;
     if (claims.Length > 0)
     {
@@ -56,6 +56,11 @@
     </header>
 
     <div class="wrapper px-2 mt-5">
+        @if (connected) {
+            <p class="font-weight-bold d-none d-sm-block" style="font-size: 2rem;">
+                Bonjour, @userName&nbsp;!
+            </p>
+        }
         @RenderBody()
         <p class="text-center mt-3">
             &copy; 2021 - Make a Survey - <a asp-area="" asp-controller="Home" asp-action="Privacy">Tous droits réservés</a>

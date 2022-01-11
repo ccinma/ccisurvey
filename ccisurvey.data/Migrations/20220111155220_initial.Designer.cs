@@ -10,7 +10,7 @@ using ccisurvey.data;
 namespace ccisurvey.data.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220111111945_initial")]
+    [Migration("20220111155220_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
